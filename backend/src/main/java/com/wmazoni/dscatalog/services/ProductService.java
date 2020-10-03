@@ -1,7 +1,10 @@
 package com.wmazoni.dscatalog.services;
 
+import com.wmazoni.dscatalog.dto.CategoryDTO;
 import com.wmazoni.dscatalog.dto.ProductDTO;
+import com.wmazoni.dscatalog.entities.Category;
 import com.wmazoni.dscatalog.entities.Product;
+import com.wmazoni.dscatalog.repositories.CategoryRepository;
 import com.wmazoni.dscatalog.repositories.ProductRepository;
 import com.wmazoni.dscatalog.services.exceptions.DatabaseException;
 import com.wmazoni.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -20,17 +23,21 @@ import java.util.Optional;
 public class ProductService {
 
     @Autowired
-    private ProductRepository categoryRepository;
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
-        Page<Product> list = categoryRepository.findAll(pageRequest);
+        Page<Product> list = productRepository.findAll(pageRequest);
         return list.map(ProductDTO::new);
     }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Optional<Product> obj = categoryRepository.findById(id);
+        Optional<Product> obj = productRepository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new ProductDTO(entity, entity.getCategories());
     }
@@ -38,27 +45,26 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
-        //entity.setName(dto.getName());
-        entity = categoryRepository.save(entity);
-        return new ProductDTO(entity);
+        copyDTOToEntity(dto, entity);
+        entity = productRepository.save(entity);
+        return new ProductDTO(entity, entity.getCategories());
     }
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
         try {
-            Product entity = categoryRepository.getOne(id);
-            //entity.setName(dto.getName());
-            entity = categoryRepository.save(entity);
+            Product entity = productRepository.getOne(id);
+            copyDTOToEntity(dto, entity);
+            entity = productRepository.save(entity);
             return new ProductDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found" + id);
         }
     }
 
-
     public void delete(Long id) {
         try {
-            categoryRepository.deleteById(id);
+            productRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id " + id + " not found ");
@@ -66,6 +72,18 @@ public class ProductService {
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Integrity violation");
         }
+    }
+    private void copyDTOToEntity(ProductDTO dto, Product entity) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setDate(dto.getDate());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.setPrice(dto.getPrice());
 
+        entity.getCategories().clear();
+        for (CategoryDTO catDTO : dto.getCategories()) {
+            Category category = categoryRepository.getOne(catDTO.getId());
+            entity.getCategories().add(category);
+        }
     }
 }
