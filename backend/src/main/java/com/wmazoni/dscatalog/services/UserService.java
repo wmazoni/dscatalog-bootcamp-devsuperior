@@ -3,6 +3,7 @@ package com.wmazoni.dscatalog.services;
 import com.wmazoni.dscatalog.dto.RoleDTO;
 import com.wmazoni.dscatalog.dto.UserDTO;
 import com.wmazoni.dscatalog.dto.UserInsertDTO;
+import com.wmazoni.dscatalog.dto.UserUpdateDTO;
 import com.wmazoni.dscatalog.entities.Role;
 import com.wmazoni.dscatalog.entities.User;
 import com.wmazoni.dscatalog.repositories.RoleRepository;
@@ -56,7 +57,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User entity = userRepository.getOne(id);
             copyDTOToEntity(dto, entity);
