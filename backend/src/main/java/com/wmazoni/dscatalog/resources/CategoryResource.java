@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/categories")
@@ -53,7 +52,7 @@ public class CategoryResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<CategoryDTO> update(@PathVariable Long id) {
+    public ResponseEntity<CategoryDTO> delete(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
