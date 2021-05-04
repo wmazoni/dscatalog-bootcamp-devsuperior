@@ -55,7 +55,7 @@ public class UserResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> delete(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
