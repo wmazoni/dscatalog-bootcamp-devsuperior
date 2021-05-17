@@ -1,6 +1,7 @@
 package com.wmazoni.dscatalog.resources;
 
 import com.wmazoni.dscatalog.dto.ProductDTO;
+import com.wmazoni.dscatalog.dto.UriDTO;
 import com.wmazoni.dscatalog.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -46,6 +48,12 @@ public class ProductResource {
         dto = categoryService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PostMapping(value = "/image")
+    public ResponseEntity<UriDTO> uploadImage(@RequestParam("file") MultipartFile file) {
+        UriDTO dto = categoryService.uploadFile(file);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PutMapping(value = "/{id}")

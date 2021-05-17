@@ -2,6 +2,7 @@ package com.wmazoni.dscatalog.services;
 
 import com.wmazoni.dscatalog.dto.CategoryDTO;
 import com.wmazoni.dscatalog.dto.ProductDTO;
+import com.wmazoni.dscatalog.dto.UriDTO;
 import com.wmazoni.dscatalog.entities.Category;
 import com.wmazoni.dscatalog.entities.Product;
 import com.wmazoni.dscatalog.repositories.CategoryRepository;
@@ -15,8 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +32,17 @@ public class ProductService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private S3Service s3Service;
     
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Long categoryId, String name, PageRequest pageRequest) {
         List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
-        Page<Product> list = productRepository.find(categories, name, pageRequest);
-        return list.map(ProductDTO::new);
+        Page<Product> page = productRepository.find(categories, name, pageRequest);
+        productRepository.findProductsWithCategories(page.getContent());
+        return page.map(x -> new ProductDTO(x, x.getCategories()));
     }
 
     @Transactional(readOnly = true)
@@ -88,5 +95,10 @@ public class ProductService {
             Category category = categoryRepository.getOne(catDTO.getId());
             entity.getCategories().add(category);
         }
+    }
+
+    public UriDTO uploadFile(MultipartFile file) {
+        URL url = s3Service.uploadFile(file);
+        return new UriDTO(url.toString());
     }
 }
