@@ -1,4 +1,4 @@
-package com.wmazoni.dscatalog.testes.repositories;
+package com.wmazoni.dscatalog.tests.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import com.wmazoni.dscatalog.entities.Category;
 import com.wmazoni.dscatalog.entities.Product;
 import com.wmazoni.dscatalog.repositories.ProductRepository;
-import com.wmazoni.dscatalog.testes.factories.ProductFactory;
+import com.wmazoni.dscatalog.tests.factories.ProductFactory;
 
 @DataJpaTest
 public class ProductRepositoryTests {
@@ -39,6 +39,15 @@ public class ProductRepositoryTests {
 		countPCGamerProducts = 21L;
 		countCategory3Products = 23L;
 		pageRequest = PageRequest.of(0, 10);
+	}
+
+	@Test
+	public void findShouldReturnNothingWhenNameDoesNotExist() {
+		String name = "Camera";
+
+		Page<Product> result = productRepository.find(null, name, pageRequest);
+
+		Assertions.assertTrue(result.isEmpty());
 	}
 	
 	@Test
