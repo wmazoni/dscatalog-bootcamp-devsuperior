@@ -1,6 +1,6 @@
 import PrivateRoute from 'core/components/Routes/PrivateRoute';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Products from './components/Products';
 import './styles.scss';

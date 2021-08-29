@@ -18,13 +18,13 @@ const Form = () => {
         name: '',
         price: '',
         category: '',
-        description:''
+        description: ''
     });
 
-    const handleOnChange = (event: FormEvent ) => {
+    const handleOnChange = (event: FormEvent) => {
         const name = event.target.name;
         const value = event.target.value;
-        setFormData(data => ({ ...data, [name]: value}));
+        setFormData(data => ({ ...data, [name]: value }));
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -32,11 +32,11 @@ const Form = () => {
         const payload = {
             ...formData,
             imgUrl: 'https://http2.mlstatic.com/D_NQ_NP_2X_627914-MLA40655732617_022020-F.webp',
-            categories: [{id: formData.category}]
+            categories: [{ id: formData.category }]
         }
 
-        makePrivateRequest({url: '/products', method: 'POST', data: payload}).then(() => {
-            setFormData({name: '', category: '', price: '', description: ''});
+        makePrivateRequest({ url: '/products', method: 'POST', data: payload }).then(() => {
+            setFormData({ name: '', category: '', price: '', description: '' });
         });
     }
 
@@ -72,13 +72,13 @@ const Form = () => {
                         />
                     </div>
                     <div className="col-6">
-                        <textarea 
-                            name="description" 
+                        <textarea
+                            name="description"
                             value={formData.description}
                             onChange={handleOnChange}
                             className="form-control"
-                            cols={30} 
-                            rows={10} 
+                            cols={30}
+                            rows={10}
                         />
                     </div>
                 </div>
