@@ -56,6 +56,10 @@ public class ProductService {
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
         copyDTOToEntity(dto, entity);
+        if (entity.getCategories().size() == 0) {
+            Category cat = categoryRepository.getOne(1L);
+            entity.getCategories().add(cat);
+        }
         entity = productRepository.save(entity);
         return new ProductDTO(entity, entity.getCategories());
     }
@@ -65,6 +69,10 @@ public class ProductService {
         try {
             Product entity = productRepository.getOne(id);
             copyDTOToEntity(dto, entity);
+            if (entity.getCategories().size() == 0) {
+                Category cat = categoryRepository.getOne(1L);
+                entity.getCategories().add(cat);
+            }
             entity = productRepository.save(entity);
             return new ProductDTO(entity);
         } catch (EntityNotFoundException e) {
