@@ -1,82 +1,56 @@
 import { makePrivateRequest } from 'core/utils/request';
 import BaseForm from 'pages/Admin/components/BaseForm';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import './styles.scss';
 
 type FormState = {
     name: string;
     price: string;
-    category: string;
+    imageUrl: string;
     description: string;
 }
 
-type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>;
-
 const Form = () => {
+    const { register, handleSubmit } = useForm<FormState>();
 
-    const [formData, setFormData] = useState<FormState>({
-        name: '',
-        price: '',
-        category: '',
-        description: ''
-    });
-
-    const handleOnChange = (event: FormEvent) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setFormData(data => ({ ...data, [name]: value }));
-    }
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const payload = {
-            ...formData,
-            imgUrl: 'https://http2.mlstatic.com/D_NQ_NP_2X_627914-MLA40655732617_022020-F.webp',
-            categories: [{ id: formData.category }]
-        }
-
-        makePrivateRequest({ url: '/products', method: 'POST', data: payload }).then(() => {
-            setFormData({ name: '', category: '', price: '', description: '' });
-        });
+    const onSubmit = (data: FormState) => {
+        makePrivateRequest({ url: '/products', method: 'POST', data });
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <BaseForm title="cadastrar um produto" >
                 <div className="row">
                     <div className="col-6">
                         <input
-                            value={formData.name}
+                            {...register('name', { required: "Campo obrigatório" })}
                             name="name"
                             type="text"
-                            className="form-control mb-5"
-                            onChange={handleOnChange}
+                            className="form-control margin-bottom-30 input-base"
                             placeholder="Nome do Produto"
                         />
-                        <select
-                            className="form-control mb-5" onChange={handleOnChange}
-                            name="category"
-                            value={formData.category}
-                        >
-                            <option value="1">Livros</option>
-                            <option value="3">Computadores</option>
-                            <option value="2">Eletrônicos</option>
-                        </select>
                         <input
-                            value={formData.price}
+                            {...register('price', { required: "Campo obrigatório" })}
                             name="price"
-                            type="text"
-                            className="form-control"
-                            onChange={handleOnChange}
+                            type="number"
+                            className="form-control margin-bottom-30 input-base"
                             placeholder="Preço"
+                        />
+                        <input
+                            {...register('imageUrl', { required: "Campo obrigatório" })}
+                            name="imageUrl"
+                            type="text"
+                            className="form-control margin-bottom-30 input-base"
+                            placeholder="Imagem do Produto"
                         />
                     </div>
                     <div className="col-6">
                         <textarea
+                            {...register('description', { required: "Campo obrigatório" })}
                             name="description"
-                            value={formData.description}
-                            onChange={handleOnChange}
-                            className="form-control"
+                            className="form-control input-base"
+                            placeholder="Descrição"
                             cols={30}
                             rows={10}
                         />
@@ -84,7 +58,6 @@ const Form = () => {
                 </div>
             </BaseForm>
         </form>
-
     )
 }
 
