@@ -1,8 +1,9 @@
 import Pagination from 'core/components/Pagination';
 import { ProductResponse } from 'core/types/Product';
-import { makeRequest } from 'core/utils/request';
-import React, { useEffect, useState } from 'react';
-import {useHistory} from 'react-router-dom';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Card from '../Card';
 
 const List = () => {
@@ -12,8 +13,9 @@ const List = () => {
     const history = useHistory();
 
     console.log(productResponse);
+    
 
-    useEffect(() => {
+    const getProducts = useCallback(() => {
         const params = {
             page: activePage,
             linesPerPage: 4,
@@ -30,9 +32,27 @@ const List = () => {
                 setIsLoading(false);
             })
     }, [activePage]);
-    
+
+    useEffect(() => {
+        getProducts();
+    }, [getProducts]);
+
     const handleCreate = () => {
         history.push('/admin/products/create');
+    }
+
+    const onRemove = (productId: number) => {
+        const confirm = window.confirm('Deseja realmente excluir este produto?');
+        if (confirm) {
+            makePrivateRequest({ url: `/products/${productId}`, method: 'DELETE' })
+                .then(() => {
+                    toast.info('Produto removido com sucesso!');
+                    getProducts();
+                })
+                .catch(() => {
+                    toast.error('Erro ao remover produto!');
+                })
+        }
     }
     return (
         <div className="admin-products-list">
@@ -41,15 +61,15 @@ const List = () => {
             </button>
             <div className="admin-list-container">
                 {productResponse?.content.map(product => (
-                    <Card product={product} key={product.id}/>
+                    <Card product={product} key={product.id} onRemove={onRemove} />
                 ))}
                 {productResponse && (
-                <Pagination 
-                    totalPages={productResponse.totalPages}
-                    activePage={activePage}
-                    onChange={page => setActivePage(page)}
-                />
-            )}
+                    <Pagination
+                        totalPages={productResponse.totalPages}
+                        activePage={activePage}
+                        onChange={page => setActivePage(page)}
+                    />
+                )}
             </div>
         </div>
     )
