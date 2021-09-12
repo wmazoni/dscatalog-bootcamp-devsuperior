@@ -9408,6 +9408,11 @@ react-content-loader@^5.1.4:
   resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-5.1.4.tgz#854bafe4415dd9de07174621375bc308edd0ebb5"
   integrity sha512-hTq7pZi2GKCK6a9d3u6XStozm0QGCEjw8cSqQReiWnh2up6IwCha5R5TF0o6SY5qUDpByloEZEZtnFxpJyENFw==
 
+react-currency-input-field@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.5.1.tgz#460318aba22d592f7e886a314ac8a996240acf49"
+  integrity sha512-rUG6WB7g3KLpJtDbtHhlN8FRuOZmTUORs0sCIyGRjcQxofGrKcZ6rwQFSmYdtPRAQ4ut/LMJkDLP+4rDAZmRqg==
+
 react-dev-utils@^10.2.1:
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.1.tgz#f6de325ae25fa4d546d09df4bb1befdc6dd19c19"
