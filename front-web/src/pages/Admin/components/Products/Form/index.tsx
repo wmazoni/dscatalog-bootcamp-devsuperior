@@ -59,7 +59,7 @@ const Form = () => {
 
         const payload = {
             ...data,
-            imgUrl: uploadedImgUrl
+            imgUrl: uploadedImgUrl || productImgUrl
         }
 
         makePrivateRequest({
@@ -118,8 +118,6 @@ const Form = () => {
                                         isMulti
                                     />
                                 )}
-                                
-                                
                             />
                             {errors.categories && (
                                 <div className="invalid-feedback d-block">
