@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { color } from 'react-native-reanimated';
 
 const colors = {
     white: "#FFFFFF",
@@ -52,6 +53,24 @@ const text = StyleSheet.create({
         fontSize: 30,
         color: colors.primary,
         fontWeight: 'bold'
+    },
+    goBackText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        color: colors.darkGrey,
+        marginLeft: 16,
+    },
+    productDetailsName: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginTop: 10,
+        color: colors.darkGrey,
+    },
+    productDescription: {
+        fontSize: 16,
+        fontWeight: '400',
+        color: colors.mediumGray,
     },
 });
 
@@ -153,6 +172,57 @@ const theme = StyleSheet.create({
         height: 40,
         borderBottomWidth: 0.5,
         borderBottomColor: colors.borderGray,
+    },
+    productImg: {
+        width: 140,
+        height: 140,
+        margin: 16,
+    },
+    detailsContainer: {
+        backgroundColor: colors.white,
+        padding: 20,
+    },
+    detailsCard: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: colors.white,
+        borderRadius: 20,
+        shadowColor: colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        justifyContent: 'space-around',
+        padding: 20,
+    },
+    productImageContainer: {
+        width: "100%",
+        borderWidth: 1,
+        borderColor: colors.lightGray,
+        alignItems: 'center',
+        borderRadius: 20,
+
+    },
+    productImage: {
+        width: 220,
+        height: 220,
+    },
+    goBackContainer: {
+        width: 290,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 10,
+        justifyContent: 'flex-start',
+
+    },
+    scrollTextContainer: {
+        marginVertical: 20,
+        padding: 20,
+        borderWidth: 0.5,
+        borderRadius: 10,
+        borderColor: colors.lightGray,
     },
 });
 
