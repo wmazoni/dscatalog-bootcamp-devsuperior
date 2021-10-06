@@ -28,8 +28,8 @@ const NavBar: React.FC = () => {
                     <TouchableOpacity style={nav.option} onPress={() => navigate("Catalog")}>
                         <Text style={[nav.textOption, route.name === "Catalog" ? nav.textActive : null,]}>Catalogo</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={nav.option}>
-                        <Text style={[nav.textOption]}>ADM</Text>
+                    <TouchableOpacity style={nav.option} onPress={() => navigate("Login")}>
+                        <Text style={[nav.textOption, route.name === "ADM" ? nav.textActive : null,]}>ADM</Text>
                     </TouchableOpacity>
                 </View>) : null
             }

@@ -74,6 +74,12 @@ const text = StyleSheet.create({
         fontWeight: '400',
         color: colors.mediumGray,
     },
+    loginTitle: {
+        fontSize: 30,
+        color: colors.darkGrey,
+        textTransform: 'uppercase',
+        marginBottom: 50,
+    },
 });
 
 const theme = StyleSheet.create({
@@ -225,6 +231,40 @@ const theme = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 10,
         borderColor: colors.lightGray,
+    },
+    loginCard: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: colors.white,
+        borderRadius: 20,
+        shadowColor: colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    form: {
+        marginVertical: 10,
+    },
+    passwordGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 25,
+    },
+    textInput: {
+        width: 290,
+        height: 50,
+        borderWidth: 1,
+        borderColor: colors.mediumGray,
+        borderRadius: 10,
+        padding: 10,
+    },
+    toggle: {
+        marginLeft: -40,
     },
 });
 
