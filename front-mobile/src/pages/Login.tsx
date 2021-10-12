@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { text, theme } from "../styles";
 import eyeOpened from '../assets/eyes-opened.png';
 import eyeClosed from '../assets/eyes-closed.png';
 import arrow from '../assets/arrow.png';
-import { isAuthenticated, login } from "../services/auth";
+import { login } from "../services/auth";
 
 const Login: React.FC = () => {
+    const navigation =useNavigation();
     const [hidePassword, setHidePassword] = useState(true);
+    const [userFetchData, setUserFetchData] = useState({});
     const [userInfo, setUserInfo] = useState({username: "",password: ""});
-    useEffect(() => {
-        isAuthenticated();
-    }, [])
+    
     async function handleLogin() {
         const data = await login(userInfo);
-        console.warn(data);
+        setUserFetchData(data);
+        navigation.navigate("Dashboard");
     }
         return (
             <View style={theme.container}>
@@ -51,12 +53,12 @@ const Login: React.FC = () => {
                                 }
                             />
                             <TouchableOpacity style={theme.toggle} onPress={() => setHidePassword(!hidePassword)}>
-                                <Image source={hidePassword ? eyeOpened : eyeClosed} style={theme.eyes} />
+                                <Image source={hidePassword ? eyeOpened : eyeClosed} />
                             </TouchableOpacity>
                         </View>
                     </View>
                     <TouchableOpacity style={theme.primaryButton} activeOpacity={0.8} onPress={() => handleLogin()}>
-                        <View style={theme.buttonTextContainer}>
+                        <View style={theme.buttonTextContainer} >
                             <Text style={text.primaryText}>Fazer Login</Text>
                         </View>
                         <View style={theme.arrowContainer}>
