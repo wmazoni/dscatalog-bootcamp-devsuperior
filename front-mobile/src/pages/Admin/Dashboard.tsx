@@ -7,7 +7,7 @@ import Categories from './Categories';
 import Users from './Users';
 
 const Dashboard: React.FC = () => {
-    const [screen, setScreen] = useState("users")
+    const [screen, setScreen] = useState("products")
     return (
         <View>
             <TabBar screen={screen} setScreen={setScreen} />
