@@ -379,7 +379,7 @@ const theme = StyleSheet.create({
         borderRadius: 5,
     },
     formInput: {
-        width: 290,
+        width: "100%",
         height: 50,
         borderWidth: 1,
         borderColor: colors.mediumGray,
@@ -397,7 +397,7 @@ const theme = StyleSheet.create({
         marginVertical: 15,
     },
     selectInput: {
-        width: 290,
+        width: "100%",
         height: 50,
         borderWidth: 1,
         borderColor: colors.mediumGray,
